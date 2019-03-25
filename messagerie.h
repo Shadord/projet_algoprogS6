@@ -5,20 +5,25 @@
 #include <string.h>
 #include <stdlib.h>
 
-typedef struct {
+typedef struct _Message {
 	int destinataire;
 	int emetteur;
 	int etat;
+	struct _Message nextMessage;
 	} Message ;
 
-typedef struct {
-	int id;
+typedef struct _LetterBox {
+	int proprietaire;
 	Message *message;
-	} LetterBox ;
+	struct _LetterBox *nextLetterBox;
+} LetterBox;
+
+typedef struct {
+	LetterBox* first;
+} PMessagerie;
 
 void send_message(Messagerie *M, int destinataire);
-
-void isset_message(Messagerie *M, int identifiant);
+int isset_message(Messagerie *M, int identifiant);
 
 
 #endif

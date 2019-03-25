@@ -10,3 +10,5 @@ int isset_message(PMessagerie *PM, int identifiant)
 		existe = 1;
 	return existe;
 	}
+
+
