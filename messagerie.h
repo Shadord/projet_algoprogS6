@@ -16,7 +16,8 @@ typedef struct {
 	Message *message;
 	} Messagerie ;
 
+void send_message(Messagerie *M, int destinataire);
 
 
 
-#endif 
+#endif
