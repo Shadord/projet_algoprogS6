@@ -16,7 +16,7 @@ typedef struct {
 	Message *message;
 	} Messagerie ;
 
-
+void isset_message(Messagerie *M, int identifiant);
 
 
 #endif 
