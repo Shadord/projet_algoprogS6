@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "time.h"
 
 typedef struct {
 	int id;
@@ -32,10 +33,8 @@ SI un d'entre eu est deja malade, il le reste. Si il est Mort ou immunisé, il n
 Une personne malade, a la probabilité \beta de se soigner et d'être imminisé, et \gamma de mourrir.
 */
 
-
-
-
-Personne*** creer_graphe(int* taille_matrice);
-void print_adjacency_matrix(Personne*** adjacency_matrix, int* taille_matrice);
+Personne*** creer_graphe(int taille_matrice);
+void print_adjacency_matrix(Personne*** adjacency_matrix, int taille_matrice);
+int randomize_state(float proba);
 
 #endif
