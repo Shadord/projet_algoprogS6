@@ -2,11 +2,7 @@
 
 
 void main(int argc, char const *argv[]) {
-  srand(time(NULL));
-  int taille_matrice = 10;
-	Personne*** matrice_adjacence;
-	matrice_adjacence = creer_graphe(taille_matrice);
-	print_adjacency_matrix(matrice_adjacence, taille_matrice);
+
 
 
 }
