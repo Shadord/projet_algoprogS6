@@ -14,7 +14,7 @@ typedef struct {
 typedef struct {
 	int id;
 	Message *message;
-	} Messagerie ;
+	} LetterBox ;
 
 void send_message(Messagerie *M, int destinataire);
 
