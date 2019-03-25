@@ -1,14 +1,18 @@
 #include "messagerie.h"
 
-int isset_message(PMessagerie *PM, int identifiant)
-// Est-ce que ça inexiste
+int isset_message(PMessagerie *PM, int identifiant, int taille_matrice)
+// regarde si la boite au lettre de identifiant contient un message
 	{
-	int existe;
-	if (PM->first==NULL)
-		existe = 0; 
+	LetterBox *LB;
+	LB=PM->first;
+	while (LettreBox->proprietaire != identifiant)
+		{
+		LB=LB->nextLetterBox;
+		}
+	if (LB->Message==NULL)
+		return 0; // pas de lettre
 	else
-		existe = 1;
-	return existe;
+		return 1;
 	}
 
 
