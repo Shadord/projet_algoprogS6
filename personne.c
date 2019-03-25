@@ -1,8 +1,5 @@
 #include "personne.h"
 
-/* Creer la matrice d'adjacance
-retrouver une personne à partir des coordonnées
-trouver les voisins à partir de coordonnées */
 
 void create_graph(Graph* G, const char* grapheFileName)
 {

@@ -1,6 +1,5 @@
 #include "messagerie.h"
 
-
 int isset_message(PMessagerie *PM, int identifiant) {
 	LetterBox* L = PM->first;
 	while(L->nextLetterBox != NULL) {
