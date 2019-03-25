@@ -18,6 +18,7 @@ typedef struct {
 
 void send_message(Messagerie *M, int destinataire);
 
+void isset_message(Messagerie *M, int identifiant);
 
 
 #endif
