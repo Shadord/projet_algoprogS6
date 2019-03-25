@@ -35,4 +35,7 @@ Une personne malade, a la probabilité \beta de se soigner et d'être imminisé,
 
 
 
+Personne*** creer_graphe(int* taille_matrice);
+void print_adjacency_matrix(Personne*** adjacency_matrix, int* taille_matrice);
+
 #endif
