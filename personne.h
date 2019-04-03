@@ -6,17 +6,23 @@
 #include <stdlib.h>
 #include "time.h"
 
-typedef struct _Personne
+typedef struct 
 {
 	int		id;
 	int		etat;
-	struct	_Personne* successeur;
 } Personne;
+
+typedef struct _Successeur
+{
+	Personne *personne;
+	struct _Successeur *successeur;
+} Successeur;
 
 typedef struct
 {
 	int	nb_personnes;
-	Personne** liste_successeurs;
+	Personne** liste_personnes;
+	Successeurs** liste_successeurs;
 } Graph;
 
 /* *********** Table des états : *****************

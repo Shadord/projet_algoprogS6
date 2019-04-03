@@ -1,20 +1,5 @@
 #include "messagerie.h"
 
-int isset_message(PMessagerie *PM, int identifiant) {
-	LetterBox* L = PM->first;
-	while(L->nextLetterBox != NULL) {
-		if(L->proprietaire == identifiant) {
-			if(L->message != NULL) {
-				return 0;
-			}else{
-				return 1;
-			}
-		}
-		L = L->nextLetterBox;
-	}
-}
-
-
 void send_message(PMessagerie *PM, Personne *A, Personne *B) {
 	int futur_etat_B;
 	if(A->etat == 1) {// Si A est malade (sinon il envois pas de message)
@@ -44,3 +29,13 @@ void send_message(PMessagerie *PM, Personne *A, Personne *B) {
 
 	}
 }
+
+void update(LetterBox *LB)
+	{
+	while (LB->first!=NULL)
+		{
+		Message *M = depile(LB);
+		Personne *P = M->destinataire;
+		P->etat = M->etat ;
+		}
+	}
