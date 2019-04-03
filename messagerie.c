@@ -39,3 +39,5 @@ void update(LetterBox *LB)
 		P->etat = M->etat ;
 		}
 	}
+
+void set(Graph *G
