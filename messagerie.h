@@ -13,18 +13,13 @@ typedef struct _Message {
 	struct _Message* nextMessage;
 	} Message ;
 
-typedef struct _LetterBox {
-	int proprietaire;
-	Message *message;
-	struct _LetterBox* nextLetterBox;
+typedef struct {
+	Message* first;
+	Message* last;
 } LetterBox;
 
-typedef struct {
-	LetterBox* first;
-} PMessagerie;
-
-void send_message(PMessagerie *PM, Personne *A, Personne *B);
-int isset_message(PMessagerie *PM, int identifiant);
-
+void send_message(LetterBox *LB, Personne *A, Personne *B);
+void empile(LetterBox* LB, Message* M);
+Message* depile(LetterBox* LB);
 
 #endif
