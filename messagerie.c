@@ -53,7 +53,7 @@ Message* depile(LetterBox* LB){ // Depile par le debut
 	return M;
 }
 
-void update(LetterBox *LB)
+void update(LetterBox *LB) // met à jour l'état des personnes en fonction des messages reçus
 	{
 	while (LB->first!=NULL)
 		{
@@ -63,6 +63,20 @@ void update(LetterBox *LB)
 		}
 	}
 
-void set(Graph *G, LetterBox *LB) {
-
+void set(Graph *G, LetterBox *LB) { // verifie l'état des personnes et envoie un message si malade
+	for (int i=0; i< G->nb_personnes; i++)
+		{
+		Personne *P = G->liste_personnes[i];
+		if (P->etat == 1)
+			{
+			send_message(LB, P, P); // envoie un message à lui-même
+			Successeur* S = G->liste_successeur[i]
+			while (S!=NULL) // on envoie un message à tous les voisins
+				{
+				send_message(LB, P, S->personne);
+				S = S->successeur;
+				}
+			}
+		}
+	}	
 }
