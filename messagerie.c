@@ -37,8 +37,8 @@ void empile(LetterBox* LB, Message* M){ // Emplile par la fin
 		LB->first = M;
 		LB->last = M;
 	}else{
-	 	LB->Last->nextMessage = M->nextMessage;
-	 	LB->Last = M;
+	 	LB->last->nextMessage = M->nextMessage;
+	 	LB->last = M;
  }
 }
 
@@ -61,4 +61,6 @@ void update(LetterBox *LB)
 		}
 	}
 
-void set(Graph *G
+void set(Graph *G, LetterBox *LB) {
+	
+}

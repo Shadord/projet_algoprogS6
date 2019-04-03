@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include "time.h"
 
-typedef struct 
+typedef struct
 {
 	int		id;
 	int		etat;
@@ -22,7 +22,7 @@ typedef struct
 {
 	int	nb_personnes;
 	Personne** liste_personnes;
-	Successeurs** liste_successeurs;
+	Successeur** liste_successeurs;
 } Graph;
 
 /* *********** Table des états : *****************
@@ -47,8 +47,8 @@ SI un d'entre eu est deja malade, il le reste. Si il est Mort ou immunisé, il n
 Une personne malade, a la probabilité \beta de se soigner et d'être imminisé, et \gamma de mourrir.
 */
 
-Personne*** creer_graphe(int taille_matrice);
-void print_adjacency_matrix(Personne*** adjacency_matrix, int taille_matrice);
+void create_graph(Graph* G, const char* grapheFileName);
 int randomize_state(float proba);
+void print_graph(Graph* G);
 
 #endif

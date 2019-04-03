@@ -2,8 +2,10 @@
 
 
 void main(int argc, char const *argv[]) {
-
-
+  const char* filename = "graph_10_13.txt";
+  Graph G;
+  create_graph(&G, filename);
+  print_graph(&G);
 
 }
 
