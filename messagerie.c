@@ -9,12 +9,16 @@ void send_message(LetterBox *LB, Personne *A, Personne *B) {
 			M->destinataire = B;
 			M->emetteur = A;
 			M->etat = 2;
+			empile(LB, M);
+			return;
 			//
 		}else{
 			if(randomize_state(DEAD_RATE)) { // On check si il va mourrir ?
 				M->destinataire = B;
 				M->emetteur = A;
 				M->etat = 3;
+				empile(LB, M);
+				return;
 				//
 			}
 		}
@@ -24,13 +28,13 @@ void send_message(LetterBox *LB, Personne *A, Personne *B) {
 				M->destinataire = B;
 				M->emetteur = A;
 				M->etat = 1;
+				empile(LB, M);
+				return;
 				//
 			}
 		}
 	}
 
-	if(M != NULL)
-		empile(LB, M);
 }
 
 
@@ -39,8 +43,9 @@ void empile(LetterBox* LB, Message* M){ // Emplile par la fin
 		LB->first = M;
 		LB->last = M;
 	}else{
-	 	LB->last->nextMessage = M->nextMessage;
+		LB->last->nextMessage = M;
 	 	LB->last = M;
+
  }
 }
 
@@ -70,13 +75,12 @@ void set(Graph *G, LetterBox *LB) { // verifie l'état des personnes et envoie u
 		if (P->etat == 1)
 			{
 			send_message(LB, P, P); // envoie un message à lui-même
-			Successeur* S = G->liste_successeur[i]
-			while (S!=NULL) // on envoie un message à tous les voisins
+			Successeur* S = G->liste_successeurs[i];
+			while (S != NULL) // on envoie un message à tous les voisins
 				{
 				send_message(LB, P, S->personne);
 				S = S->successeur;
 				}
 			}
 		}
-	}	
-}
+	}

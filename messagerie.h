@@ -11,7 +11,7 @@ typedef struct _Message {
 	Personne* emetteur;
 	int etat;
 	struct _Message* nextMessage;
-	} Message ;
+	} Message;
 
 typedef struct {
 	Message* first;

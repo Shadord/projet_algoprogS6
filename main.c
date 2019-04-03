@@ -5,11 +5,17 @@ void main(int argc, char const *argv[]) {
   const char* filename = "graph_10_13.txt";
   Graph G;
   LetterBox LB;
+  LB.first = NULL;
+  LB.last = NULL;
   create_graph(&G, filename);
   print_graph(&G);
   Graph R;
-  generateGrid(&R, 4);
-  printGrid(&R, 4);
+  generateGrid(&R, 10);
+  printGrid(&R, 10);
+
+  simulation(&R, &LB,10);
+  system("atom");
+}
 
 
 int menu() {
@@ -24,19 +30,19 @@ int menu() {
   return reponse;
 }
 
-void simulation(Graph *G, LetterBox *LB)
+void simulation(Graph *G, LetterBox *LB, int size)
 	{
 	int temps;
 	printf("Entrez le nombre de jours de la simulation : ");
 	scanf("%d", &temps);
 
 	printf("Jour 0 - Situation de départ : \n");
-	print_graph(&G);
+	printGrid(G, size);
 	for (int i=0; i<temps; i++)
 		{
 		printf("Jour %d : \n", i+1);
 		set(G,LB);
 		update(LB);
-		printf_graph(G);
+		printGrid(G, size);
 		}
 	}

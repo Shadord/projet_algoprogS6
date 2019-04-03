@@ -1,7 +1,7 @@
 #ifndef PERSONNE_H
 #define PERSONNE_H
 
-#define CONTAMINATION_RATE 0.8
+#define CONTAMINATION_RATE 0.4
 #define IMMUNISATION_RATE 0.30
 #define DEAD_RATE 0.5
 

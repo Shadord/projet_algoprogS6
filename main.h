@@ -3,4 +3,4 @@
 #include "time.h"
 
 int menu();
-void simulation(Graph *G, LetterBox *LB);
+void simulation(Graph *G, LetterBox *LB, int size);

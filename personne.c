@@ -149,19 +149,43 @@ void generateGrid(Graph *G, int size) {
 			}
 
 		}else{ // Il est ailleur
-			S1 = malloc(sizeof(Successeur));
-			S1->personne = G->liste_personnes[i-size];
-			S1->successeur = NULL;
-			S2 = malloc(sizeof(Successeur));
-			S2->personne = G->liste_personnes[i+size];
-			S2->successeur = S1;
-			S3 = malloc(sizeof(Successeur));
-			S3->personne = G->liste_personnes[i-1];
-			S3->successeur = S2;
-			S4 = malloc(sizeof(Successeur));
-			S4->personne = G->liste_personnes[i+1];
-			S4->successeur = S3;
-			G->liste_successeurs[i] = S4;
+			if(i<size) {// Haut
+				S1 = malloc(sizeof(Successeur));
+				S1->personne = G->liste_personnes[i+size];
+				S1->successeur = NULL;
+				S2 = malloc(sizeof(Successeur));
+				S2->personne = G->liste_personnes[i-1];
+				S2->successeur = S1;
+				S3 = malloc(sizeof(Successeur));
+				S3->personne = G->liste_personnes[i+1];
+				S3->successeur = S2;
+				G->liste_successeurs[i] = S3;
+			}else if(i > G->nb_personnes - size) { // Si il est en bas
+				S1 = malloc(sizeof(Successeur));
+				S1->personne = G->liste_personnes[i-size];
+				S1->successeur = NULL;
+				S2 = malloc(sizeof(Successeur));
+				S2->personne = G->liste_personnes[i-1];
+				S2->successeur = S1;
+				S3 = malloc(sizeof(Successeur));
+				S3->personne = G->liste_personnes[i+1];
+				S3->successeur = S2;
+				G->liste_successeurs[i] = S3;
+			}else{ // SInon il est juste sur le bord gauche
+				S1 = malloc(sizeof(Successeur));
+				S1->personne = G->liste_personnes[i-size];
+				S1->successeur = NULL;
+				S2 = malloc(sizeof(Successeur));
+				S2->personne = G->liste_personnes[i+size];
+				S2->successeur = S1;
+				S3 = malloc(sizeof(Successeur));
+				S3->personne = G->liste_personnes[i-1];
+				S3->successeur = S2;
+				S4 = malloc(sizeof(Successeur));
+				S4->personne = G->liste_personnes[i+1];
+				S4->successeur = S3;
+				G->liste_successeurs[i] = S4;
+			}
 		}
 	}
 }
@@ -171,10 +195,26 @@ void printGrid(Graph *G, int size) {
 			if(j%size == 0){
 				printf("\n");
 			}
-			if(G->liste_personnes[j]->etat == 0) {
-				printf("\033[32m%d ", j);
+			if(j<10){
+				if(G->liste_personnes[j]->etat == 0) {
+					printf("\033[32m0%d ", j);
+				}else if(G->liste_personnes[j]->etat == 1){
+					printf("\033[31m0%d ", j);
+				}else if(G->liste_personnes[j]->etat == 2){
+					printf("\033[36m0%d ", j);
+				}else if(G->liste_personnes[j]->etat == 3){
+					printf("\033[33m0%d ", j);
+				}
 			}else{
-				printf("\033[31m%d ", j);
+				if(G->liste_personnes[j]->etat == 0) {
+					printf("\033[32m%d ", j);
+				}else if(G->liste_personnes[j]->etat == 1){
+					printf("\033[31m%d ", j);
+				}else if(G->liste_personnes[j]->etat == 2){
+					printf("\033[36m%d ", j);
+				}else if(G->liste_personnes[j]->etat == 3){
+					printf("\033[33m%d ", j);
+				}
 			}
 
 
