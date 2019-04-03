@@ -1,6 +1,7 @@
 #include "messagerie.h"
 
-void send_message(PMessagerie *PM, Personne *A, Personne *B) {
+
+void send_message(LetterBox *LB, Personne *A, Personne *B) {
 	int futur_etat_B;
 	if(A->etat == 1) {// Si A est malade (sinon il envois pas de message)
 		if(A != B) { // Si A n'est pas B alors on check juste la transmission et on envois le message que si l'autre doit etre malade
@@ -28,6 +29,26 @@ void send_message(PMessagerie *PM, Personne *A, Personne *B) {
 		}
 
 	}
+}
+
+
+void empile(LetterBox* LB, Message* M){ // Emplile par la fin
+	if(LB->first == NULL){ // Aucun elements dans la liste actuellement
+		LB->first = M;
+		LB->last = M;
+	}else{
+	 	LB->Last->nextMessage = M->nextMessage;
+	 	LB->Last = M;
+ }
+}
+
+
+
+Message* depile(LetterBox* LB){ // Depile par le debut
+	Message* M = LB->first;
+	LB->first = M->nextMessage;
+	M->nextMessage = NULL;
+	return M;
 }
 
 void update(LetterBox *LB)
