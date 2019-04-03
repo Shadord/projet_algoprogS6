@@ -6,6 +6,9 @@ void main(int argc, char const *argv[]) {
   Graph G;
   create_graph(&G, filename);
   print_graph(&G);
+  Graph R;
+  generateGrid(&R, 4);
+  printGrid(&R, 4);
 
 }
 

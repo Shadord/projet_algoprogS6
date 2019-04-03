@@ -1,10 +1,16 @@
 #ifndef PERSONNE_H
 #define PERSONNE_H
 
+#define CONTAMINATION_RATE 0.8
+#define IMMUNISATION_RATE 0.30
+#define DEAD_RATE 0.5
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include "time.h"
+
+
 
 typedef struct
 {
@@ -50,5 +56,7 @@ Une personne malade, a la probabilité \beta de se soigner et d'être imminisé,
 void create_graph(Graph* G, const char* grapheFileName);
 int randomize_state(float proba);
 void print_graph(Graph* G);
+void printGrid(Graph *G, int size);
+void generateGrid(Graph *G, int size);
 
 #endif

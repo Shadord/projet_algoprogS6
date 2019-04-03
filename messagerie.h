@@ -22,5 +22,6 @@ void send_message(LetterBox *LB, Personne *A, Personne *B);
 void empile(LetterBox* LB, Message* M);
 Message* depile(LetterBox* LB);
 void update(LetterBox *LB);
+void set(Graph *G, LetterBox *LB);
 
 #endif

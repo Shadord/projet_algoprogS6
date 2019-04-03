@@ -5,26 +5,20 @@ void create_graph(Graph* G, const char* grapheFileName)
 {
 	FILE *fp;
 	fp = fopen(grapheFileName, "r");
-	printf("1\n");
 	if (fp != NULL)
 	{
 		int nb_personnes, nb_arcs, id_personne, id_successeur, etat;
 		fscanf(fp, "%d %d", &nb_personnes, &nb_arcs);
 		G->nb_personnes 		= nb_personnes;
-		printf("1\n");
 		G->liste_successeurs	= (Successeur**) malloc(nb_personnes * sizeof(Successeur*));
-		printf("2\n");
 		G->liste_personnes	= (Personne**) malloc(nb_personnes * sizeof(Personne*));
-		printf("3\n");
+
 		for (int i = 0; i < nb_personnes; i++) {
 			G->liste_successeurs[i]	= NULL;
 		}
-		printf("4\n");
-
 		for (int i = 0; i < nb_personnes; i++) {
 			G->liste_personnes[i]	= NULL;
 		}
-		printf("5\n");
 
 		for (int i = 0; i < nb_arcs; i++)
 		{
@@ -77,4 +71,116 @@ void print_graph(Graph* G) {
 		}
 		printf(";\n");
 	}
+}
+
+void generateGrid(Graph *G, int size) {
+	G->nb_personnes = size*size;
+	G->liste_successeurs	= (Successeur**) malloc(G->nb_personnes * sizeof(Successeur*));
+	G->liste_personnes	= (Personne**) malloc(G->nb_personnes * sizeof(Personne*));
+	for (int i = 0; i < G->nb_personnes; i++) {
+		Personne* P = malloc(sizeof(Personne));
+		P->id = i;
+		P->etat = randomize_state(CONTAMINATION_RATE);
+		G->liste_personnes[i]	= P;
+	}
+	for (int i = 0; i < G->nb_personnes; i++) {
+		Successeur* S1;
+		Successeur* S2;
+		Successeur* S3;
+		Successeur* S4;
+		Personne* P = G->liste_personnes[i];
+		if(i%size == 0) { // Bord Gauche
+			if(i<size) {// Haut
+				S1 = malloc(sizeof(Successeur));
+				S1->personne = G->liste_personnes[i+1];
+				S1->successeur = NULL;
+				S2 = malloc(sizeof(Successeur));
+				S2->personne = G->liste_personnes[i+size];
+				S2->successeur = S1;
+				G->liste_successeurs[i] = S2;
+			}else if(i == G->nb_personnes - size) { // Si il est en bas
+				S1 = malloc(sizeof(Successeur));
+				S1->personne = G->liste_personnes[i+1];
+				S1->successeur = NULL;
+				S2 = malloc(sizeof(Successeur));
+				S2->personne = G->liste_personnes[i-size];
+				S2->successeur = S1;
+				G->liste_successeurs[i] = S2;
+			}else{ // SInon il est juste sur le bord gauche
+				S1 = malloc(sizeof(Successeur));
+				S1->personne = G->liste_personnes[i-size];
+				S1->successeur = NULL;
+				S2 = malloc(sizeof(Successeur));
+				S2->personne = G->liste_personnes[i+size];
+				S2->successeur = S1;
+				S3 = malloc(sizeof(Successeur));
+				S3->personne = G->liste_personnes[i+1];
+				S3->successeur = S2;
+				G->liste_successeurs[i] = S3;
+			}
+		}else if(i%size == size-1){ // Bord droit
+			if(i<size) {// Haut
+				S1 = malloc(sizeof(Successeur));
+				S1->personne = G->liste_personnes[i-1];
+				S1->successeur = NULL;
+				S2 = malloc(sizeof(Successeur));
+				S2->personne = G->liste_personnes[i+size];
+				S2->successeur = S1;
+				G->liste_successeurs[i] = S2;
+			}else if(i == G->nb_personnes - size) { // Si il est en bas
+				S1 = malloc(sizeof(Successeur));
+				S1->personne = G->liste_personnes[i-1];
+				S1->successeur = NULL;
+				S2 = malloc(sizeof(Successeur));
+				S2->personne = G->liste_personnes[i-size];
+				S2->successeur = S1;
+				G->liste_successeurs[i] = S2;
+			}else{ // SInon il est juste sur le bord gauche
+				S1 = malloc(sizeof(Successeur));
+				S1->personne = G->liste_personnes[i-size];
+				S1->successeur = NULL;
+				S2 = malloc(sizeof(Successeur));
+				S2->personne = G->liste_personnes[i+size];
+				S2->successeur = S1;
+				S3 = malloc(sizeof(Successeur));
+				S3->personne = G->liste_personnes[i-1];
+				S3->successeur = S2;
+				G->liste_successeurs[i] = S3;
+			}
+
+		}else{ // Il est ailleur
+			S1 = malloc(sizeof(Successeur));
+			S1->personne = G->liste_personnes[i-size];
+			S1->successeur = NULL;
+			S2 = malloc(sizeof(Successeur));
+			S2->personne = G->liste_personnes[i+size];
+			S2->successeur = S1;
+			S3 = malloc(sizeof(Successeur));
+			S3->personne = G->liste_personnes[i-1];
+			S3->successeur = S2;
+			S4 = malloc(sizeof(Successeur));
+			S4->personne = G->liste_personnes[i+1];
+			S4->successeur = S3;
+			G->liste_successeurs[i] = S4;
+		}
+	}
+}
+
+void printGrid(Graph *G, int size) {
+		for(int j = 0; j<G->nb_personnes; j++) {
+			if(j%size == 0){
+				printf("\n");
+			}
+			if(G->liste_personnes[j]->etat == 0) {
+				printf("\033[32m%d ", j);
+			}else{
+				printf("\033[31m%d ", j);
+			}
+
+
+		}
+
+		printf("\033[0m\n");
+
+
 }
