@@ -6,9 +6,9 @@ void main(int argc, char const *argv[]) {
   /// Chargement des parametres
   float parametres[8];
   if(loadParam(parametres) != 1) {
-    printf("Erreur lors du chargement des parametres\n");
+    printf("\033[31mErreur lors du chargement des parametres\n");
   }else{
-    printf("Succes du chargement des parametres\n");
+    printf("\033[32mSucces du chargement des parametres\n");
   }
 
   /// Creation du graphe
@@ -38,7 +38,7 @@ void main(int argc, char const *argv[]) {
         simulation(&G, &LB, size, parametres);
         system("python graph.py");
       }else{
-        printf("  Erreur, votre Graph est vide.\n");
+        printf("  \033[31mErreur, votre Graph est vide.\n");
       }
     }else if(reponse == 3) { // On rentre dans le menu des parametres
       parametreMenu(parametres);
@@ -86,14 +86,14 @@ void compteur(FILE* fp, Graph *G, int day) {
 
 int graphSize(){
   int size;
-  printf("Entrez la taille de la grille a générer : ");
+  printf("  \033[0mEntrez la taille de la grille a générer : ");
 	scanf("%d", &size);
   return size;
 }
 
 int menu() {
   int reponse;
-  printf("===============================================================\n");
+  printf("\033[0m===============================================================\n");
   printf("==>   MENU PRINCIPAL DE LA SIMULATION\n");
   printf("===============================================================\n\n");
   printf("1. GENERERATION D'UN GRAPHE DEPUIS UN FICHIER TEXTE\n");
@@ -109,10 +109,14 @@ void simulation(Graph *G, LetterBox *LB, int size, float parametres[]) {
 	int temps;
   int vaccination_day;
   FILE* fp = fopen("save.txt", "w");
-	printf("Entrez le nombre de jours de la simulation : \n");
+	printf(" \033[0mEntrez le nombre de jours de la simulation : \n");
 	scanf("%d", &temps);
-  printf("Entrez le jour de debut vaccination (-1 => aucun vaccin) : \n");
-	scanf("%d", &vaccination_day);
+  if(parametres[6] != 0) {
+    printf("  \033[0mEntrez le jour de debut vaccination (-1 => aucun vaccin) : \n");
+  	scanf("%d", &vaccination_day);
+  }else{
+    vaccination_day = -1;
+  }
 
 	printf("Jour 0 - Situation de départ : \n");
 	printGrid2(G, size);
@@ -135,7 +139,7 @@ void parametreMenu(float parametres[]) {
   int etat_vaccination = parametres[6] != 0;
   char* etat[4] = {"ACTIVER", "DESACTIVER", "ACTIVE", "DESACTIVE"};
   while(flag) {
-    printf("    ===============================================================\n");
+    printf("    \033[0m===============================================================\n");
     printf("    ==>   MENU PARAMETRES DE LA SIMULATION\n");
     printf("    ===============================================================\n\n");
     printf("    1. MODIFIER LES CONSTANTES DE PROBABILITES\n");
@@ -147,27 +151,28 @@ void parametreMenu(float parametres[]) {
     switch (reponse) {
       case 1:
         system("nano parametres.txt");
+        loadParam(parametres);
         break;
       case 2:
         if(etat_zombie == 0) {
           parametres[2] = 0.30;
           parametres[4] = 0.23;
           if(updateParam(parametres)) {
-            printf("    Le mode zombie a été %s avec les valeurs de probabilité suivantes : \n", etat[2 + etat_zombie]);
+            printf("    \033[32mLe mode zombie a été %s avec les valeurs de probabilité suivantes : \n", etat[2 + etat_zombie]);
             printf("        - Probabilité qu'un zombie morde une personne : 0.30\n");
             printf("        - Probabilité qu'un malade devienne un zombie : 0.23\n");
-            etat_zombie == 1 - etat_zombie;
+            etat_zombie = 1 - etat_zombie;
           }else{
-            printf("    Erreur lors de la sauvegarde des parametres.\n");
+            printf("    \033[31mErreur lors de la sauvegarde des parametres.\n");
           }
         }else{
           parametres[2] = 0.00;
           parametres[4] = 0.00;
           if(updateParam(parametres)) {
-            printf("    Le mode zombie a été %s\n", etat[2 + etat_zombie]);
-            etat_zombie == 1 - etat_zombie;
+            printf("    \033[32mLe mode zombie a été %s\n", etat[2 + etat_zombie]);
+            etat_zombie = 1 - etat_zombie;
           }else{
-            printf("    Erreur lors de la sauvegarde des parametres.\n");
+            printf("    \033[31mErreur lors de la sauvegarde des parametres.\n");
           }
         }
         break;
@@ -175,27 +180,27 @@ void parametreMenu(float parametres[]) {
         if(etat_vaccination == 0) {
           parametres[6] = 0.24;
           if(updateParam(parametres)) {
-            printf("    Le mode vaccination a été %s avec la valeur de probabilité suivante : \n", etat[2 + etat_vaccination]);
+            printf("    \033[32mLe mode vaccination a été %s avec la valeur de probabilité suivante : \n", etat[2 + etat_vaccination]);
             printf("        - Probabilité qu'un sain aille se faire vacciner : 0.24\n");
-            etat_vaccination == 1 - etat_vaccination;
+            etat_vaccination = 1 - etat_vaccination;
           }else{
-            printf("    Erreur lors de la sauvegarde des parametres.\n");
+            printf("    \033[31mErreur lors de la sauvegarde des parametres.\n");
           }
         }else{
           parametres[6] = 0.00;
           if(updateParam(parametres)) {
-            printf("    Le mode zombie a été %s\n", etat[2 + etat_zombie]);
-            etat_vaccination == 1 - etat_vaccination;
+            printf("    \033[32mLe mode vaccination a été %s\n", etat[2 + etat_vaccination]);
+            etat_vaccination = 1 - etat_vaccination;
           }else{
-            printf("    Erreur lors de la sauvegarde des parametres.\n");
+            printf("    \033[31mErreur lors de la sauvegarde des parametres.\n");
           }
         }
         break;
       case 4:
         if(reinitialiserParam(parametres)) {
-          printf("    Les paramètres ont étés reinitialisés.\n");
+          printf("    \033[32mLes paramètres ont étés reinitialisés.\n");
         }else{
-          printf("    Erreur lors de la sauvegarde des parametres.\n");
+          printf("    \033[31mErreur lors de la sauvegarde des parametres.\n");
         }
         break;
       case 5:
@@ -251,5 +256,6 @@ int reinitialiserParam(float parametres[]) {
   for(int i = 0; i == 7; i++) {
     parametres[i] = param[i];
   }
-  return updateParam(parametres);
+  updateParam(param);
+  return loadParam(parametres);
 }
