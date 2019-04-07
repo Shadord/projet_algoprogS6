@@ -1,7 +1,7 @@
 #include "personne.h"
 
 
-void create_graph(Graph* G, const char* grapheFileName)
+void create_graph(Graph* G, const char* grapheFileName, float parametres[])
 {
 	FILE *fp;
 	fp = fopen(grapheFileName, "r");
@@ -29,14 +29,16 @@ void create_graph(Graph* G, const char* grapheFileName)
 
 			if(G->liste_personnes[id_successeur] == NULL) { // Si le successeur existe pas (la personne en elle meme n'est pas crée)
 				successeur->id = id_successeur; // On cree son id de successeur
-				successeur->etat = 1; // On cree son état
+				successeur->etat = randomize_state(parametres[0]); // On cree son état
+				successeur->jour_malade=0;
 				G->liste_personnes[id_successeur] = successeur; // On le met dans la liste des personnes référencés
 			}else{
 				successeur = G->liste_personnes[id_successeur]; // Sinon on le recupere			}
 			}
 			if(G->liste_personnes[id_personne] == NULL) { // On verifie si la personne existe
 				P->id = id_personne;
-				P->etat = randomize_state(BEGIN_CONTAMINATION_RATE);
+				P->etat = randomize_state(parametres[0]);
+				P->jour_malade=0;
 				G->liste_personnes[id_personne] = P;
 			}else{
 				P = G->liste_personnes[id_personne];
@@ -73,14 +75,14 @@ void print_graph(Graph* G) {
 	}
 }
 
-void generateGrid(Graph *G, int size) {
+void generateGrid(Graph *G, int size, float parametres[]) {
 	G->nb_personnes = size*size;
 	G->liste_successeurs	= (Successeur**) malloc(G->nb_personnes * sizeof(Successeur*));
 	G->liste_personnes	= (Personne**) malloc(G->nb_personnes * sizeof(Personne*));
 	for (int i = 0; i < G->nb_personnes; i++) {
 		Personne* P = malloc(sizeof(Personne));
 		P->id = i;
-		P->etat = randomize_state(BEGIN_CONTAMINATION_RATE);
+		P->etat = randomize_state(parametres[0]);
 		G->liste_personnes[i]	= P;
 	}
 	for (int i = 0; i < G->nb_personnes; i++) {

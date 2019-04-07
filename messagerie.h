@@ -54,9 +54,9 @@ Attention !!! si un zombie est a coté d'un immunisé. Il est tout a fait probab
 que l'immunisé tue le zombie et que le zombie tu l'immunsé dans la même journée.
 */
 
-Message* send_Zombie(Personne* A, Personne* B);
-Message* send_Immunise(Personne* A, Personne* B);
-Message* send_Malade(Personne* A, Personne* B);
-Message* send_Sain(Personne* A, Personne* B);
+Message* send_Zombie(Personne* A, Personne* B, float parametres[]);
+Message* send_Immunise(Personne* A, Personne* B, float parametres[]);
+Message* send_Malade(Personne* A, Personne* B, float parametres[]);
+Message* send_Sain(Personne* A, Personne* B, float parametres[]);
 
 #endif

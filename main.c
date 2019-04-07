@@ -34,6 +34,7 @@ void main(int argc, char const *argv[]) {
 
 void compteur(FILE* fp, Graph *G, int day) {
   int sain = 0, malade = 0, imm = 0, dead = 0, zombie = 0;
+  float average_ill;
   Personne* P;
   for(int i = 0; i<G->nb_personnes; i++) {
     P = G->liste_personnes[i];
@@ -56,6 +57,13 @@ void compteur(FILE* fp, Graph *G, int day) {
 
     }
   }
+  for (int i=0; i<G->nb_personnes; i++)
+	{
+	if (G->liste_personnes[i]->etat==1)
+		average_ill+=G->liste_personnes[i]->jour_malade;
+	}
+  average_ill=average_ill/malade;
+  printf("Durée moyenne de la maladie : %f\n", average_ill);
   fprintf(fp, "%d;%d;%d;%d;%d;%d\n", day , sain, malade, imm, dead, zombie);
 }
 

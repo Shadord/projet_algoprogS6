@@ -1,13 +1,13 @@
 #ifndef PERSONNE_H
 #define PERSONNE_H
 
-#define BEGIN_CONTAMINATION_RATE 0.001 //Pourcentage de malade dans la grille/Graph de depart
-#define ILL_CONTAMINATION_RATE 0 // Proba qu'un malade transmette sa maladie
+#define BEGIN_CONTAMINATION_RATE 0.3 //Pourcentage de malade dans la grille/Graph de depart
+#define ILL_CONTAMINATION_RATE 0.1 // Proba qu'un malade transmette sa maladie
 #define ZOMBIE_CONTAMINATION_RATE 0.10 // Proba qu'un zombie morde qqun
-#define IMMUNISATION_RATE 0 // Proba d'etre immunisé en etant malade
-#define ZOMBIE_RATE 0.5 // Proba de devenir naturellement zombie en etant malade
-#define DEAD_RATE 0 // Proba qu'un malade meurt
-#define VACCINATION_RATE 0.5 // Proba qu'un individu sain se fasse immunisé : Immunisation marche + Qu'il ai l'argent etc...
+#define IMMUNISATION_RATE 0.1 // Proba d'etre immunisé en etant malade
+#define ZOMBIE_RATE 0.4 // Proba de devenir naturellement zombie en etant malade
+#define DEAD_RATE 0.15 // Proba qu'un malade meurt
+#define VACCINATION_RATE 0.3 // Proba qu'un individu sain se fasse immunisé : Immunisation marche + Qu'il ai l'argent etc...
 #define KILL_ZOMBIE_RATE 0.5 // Proba qu'un immunisé tue un zombie
 
 #include <stdio.h>
@@ -19,8 +19,9 @@
 
 typedef struct
 {
-	int		id;
-	int		etat;
+	int id;
+	int etat;
+	int jour_malade; 
 } Personne;
 
 typedef struct _Successeur
@@ -62,10 +63,10 @@ Une personne malade, a la probabilité \beta de se soigner et d'être imminisé,
 
 /// GENERATION DE MONDES
 // Generation d'un graph via un fichier texte. Attention, les Malades sont disposés aléatoirement selon la proba BEGIN_CONTAMINATION_RATE
-void create_graph(Graph* G, const char* grapheFileName);
+void create_graph(Graph* G, const char* grapheFileName, float parametres[]);
 
 // Génération d'une grille ou les malades sont disposés aleatoirement selon la proba BEGIN_CONTAMINATION_RATE
-void generateGrid(Graph *G, int size);
+void generateGrid(Graph *G, int size, float parametres[]);
 
 // Envois 0 ou 1 si la proba est réalisée
 int randomize_state(float proba);
