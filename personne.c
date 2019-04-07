@@ -148,7 +148,7 @@ void generateGrid(Graph *G, int size) {
 				G->liste_successeurs[i] = S3;
 			}
 
-		}else{ // Il est ailleur
+		}else{ // Il est ailleurs
 			if(i<size) {// Haut
 				S1 = malloc(sizeof(Successeur));
 				S1->personne = G->liste_personnes[i+size];
