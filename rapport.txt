@@ -1,0 +1,5 @@
+ANALYSE DES RESULTATS OBTENUS
+
+Les courbes ont chacune des significations
+Sur les resultats avec les parametres reinitialisés,
+ une simulation de 30 jours et le vaccin a 10 jours 
