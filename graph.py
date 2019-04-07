@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-myFile = open("save.txt", 'r')
+myFile = open("resultats_simulation.txt", 'r')
 data = myFile.readlines()
 myFile.close()
 

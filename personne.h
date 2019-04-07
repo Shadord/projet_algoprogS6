@@ -33,6 +33,7 @@ typedef struct _Successeur
 typedef struct
 {
 	int	nb_personnes;
+	int type; // Type de génération 0: fichier texte, 1: grille
 	Personne** liste_personnes;
 	Successeur** liste_successeurs;
 } Graph;

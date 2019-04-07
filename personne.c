@@ -7,7 +7,7 @@ void create_graph(Graph* G, const char* grapheFileName, float parametres[])
 	fp = fopen(grapheFileName, "r");
 	if (fp != NULL)
 	{
-		int nb_personnes, nb_arcs, id_personne, id_successeur, etat;
+		int nb_personnes, nb_arcs, id_personne, id_successeur, etat, longueur;
 		fscanf(fp, "%d %d", &nb_personnes, &nb_arcs);
 		G->nb_personnes 		= nb_personnes;
 		G->liste_successeurs	= (Successeur**) malloc(nb_personnes * sizeof(Successeur*));
@@ -22,7 +22,7 @@ void create_graph(Graph* G, const char* grapheFileName, float parametres[])
 
 		for (int i = 0; i < nb_arcs; i++)
 		{
-			fscanf(fp, "%d %d", &id_personne, &id_successeur);
+			fscanf(fp, "%d %d %d", &id_personne, &id_successeur, &longueur);
 			Personne* P = malloc(sizeof(Personne)); // C'est la personne primaire
 			Personne* successeur = malloc(sizeof(Personne)); // C'est la personne successeur
 			// On verifie si elles existent !

@@ -20,7 +20,7 @@ void main(int argc, char const *argv[]) {
   LB.first = NULL;
   LB.last = NULL;
 
-  const char* filename = "graph_10_13.txt"; // Nom du fichier contenant le graph
+  const char* filename = "donnees_graphe.txt"; // Nom du fichier contenant le graph
   int size; // Variable pour la taille d'un graph GRILLE
   int reponse; // Reponse du menu principal
 
@@ -29,10 +29,12 @@ void main(int argc, char const *argv[]) {
     if(reponse == 1) {
       create_graph(&G, filename, parametres); // Creation d'un graph normal grace au fichier et affichage
       print_graph(&G);
+      G.type = 1;
     }else if(reponse == 2) { // Creation d'un graph grille avec demande de taille et affichage
       size = graphSize();
       generateGrid(&G, size, parametres);
       printGrid2(&G, size);
+      G.type = 0;
     }else if(reponse == 4){ // Simulation si le graph est crée
       if(G.nb_personnes != -1){
         simulation(&G, &LB, size, parametres);
@@ -108,7 +110,7 @@ int menu() {
 void simulation(Graph *G, LetterBox *LB, int size, float parametres[]) {
 	int temps;
   int vaccination_day;
-  FILE* fp = fopen("save.txt", "w");
+  FILE* fp = fopen("resulats_simulation.txt", "w");
 	printf(" \033[0mEntrez le nombre de jours de la simulation : \n");
 	scanf("%d", &temps);
   if(parametres[6] != 0) {
@@ -119,13 +121,22 @@ void simulation(Graph *G, LetterBox *LB, int size, float parametres[]) {
   }
 
 	printf("Jour 0 - Situation de départ : \n");
-	printGrid2(G, size);
+  if(G->type = 0) {
+    printGrid2(G, size);
+  }else{
+    print_graph(G);
+  }
+
   compteur(fp, G, 0);
 	for (int i=0; i<temps; i++) {
 		printf("Jour %d : \n", i+1);
 		set(G,LB, i, vaccination_day, parametres);
 		update(LB);
-		printGrid2(G, size);
+    if(G->type = 0) {
+      printGrid2(G, size);
+    }else{
+      print_graph(G);
+    }
     compteur(fp, G, i+1);
 	}
   fclose(fp);

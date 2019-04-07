@@ -9,7 +9,7 @@ Il faut que Python soit installé.
 
 1. Explication du programme
 
-Ce programme représente l'évolution des états de chaque personne dans une population. 
+Ce programme représente l'évolution des états de chaque personne dans une population.
 Les personnes peuvent prendre plusieurs états différents :
 - sain
 - malade
@@ -20,12 +20,12 @@ Les personnes peuvent prendre plusieurs états différents :
 Au début du programme, on crée un graphe qui représente le statut de chaque personne de la population au départ (jour 0).
 
 Lors de la simulation, il est possible de modifier les paramètres, en particulier les probabilités de contamination, immunisation... (expliqués un peu plus loin).
-On entre aussi le nombre de jours que doit réaliser la simulation. 
-A la fin de celle-ci, un graphe s'affiche (Python) : il représente l'évolution des états de la population au cours du temps. 
+On entre aussi le nombre de jours que doit réaliser la simulation.
+A la fin de celle-ci, un graphe s'affiche (Python) : il représente l'évolution des états de la population au cours du temps.
 
 Voici les règles de la simulation :
-- Un individu sain peut devenir malade, zombie naturellement ou bien immunisé suite à une campagne de vaccination. 
-- Un individu malade peut devenir zombie, mort ou immunisé. 
+- Un individu sain peut devenir malade, zombie naturellement ou bien immunisé suite à une campagne de vaccination.
+- Un individu malade peut devenir zombie, mort ou immunisé.
 - Un individu immunisé peut devenir zombie et peut également tuer des zombies.
 - Un individu mort reste mort.
 - Un individu zombie peut devenir mort et peuvent tuer tout le monde.
@@ -35,7 +35,7 @@ Voici les règles de la simulation :
 
 2. Lancer le programme
 
-Executer les commandes suivantes : 
+Executer les commandes suivantes :
 gcc *.c -o main
 ./main
 
@@ -47,15 +47,15 @@ Le menu principal s'affiche.
 3. Détail du menu principal et utilisation du programme
 
 3.1. "GENERATION D'UN GRAPHE A PARTIR D'UN FICHIER TEXTE"
-On crée un graphe à partir d'un fichier .txt dans le même format que celui vu en cours, c'est-à-dire de la même forme que "graph_10_13.txt" joint dans ce dossier. 
-Le premier nombre correspond au nombre de sommets, le suivant au nombre d'arêtes. 
-Ensuite, on a "sommet1 sommet2" qui représente le fait que sommet1 et sommet2 sont reliés. 
+On crée un graphe à partir d'un fichier .txt dans le même format que celui vu en cours, c'est-à-dire de la même forme que "donnees_graphe.txt" joint dans ce dossier.
+Le premier nombre correspond au nombre de sommets, le suivant au nombre d'arêtes.
+Ensuite, on a "sommet1 sommet2" qui représente le fait que sommet1 et sommet2 sont reliés.
 
-Un graphe est donc généré en fonction des paramètres entrés : on obtient un graphe contenant le statut de chaque personne au départ (jour 0). 
+Un graphe est donc généré en fonction des paramètres entrés : on obtient un graphe contenant le statut de chaque personne au départ (jour 0).
 
 
 3.2. "GENERATION D'UN GRAPHE GRILLE"
-On crée un graphe grille d'une taille que l'on choisit. 
+On crée un graphe grille d'une taille que l'on choisit.
 De même, un graphe est généré en fonction des paramètres entrés, qui déterminent le statut de chaque personne au départ (jour 0).
 
 
@@ -105,39 +105,3 @@ Les paramètres que nous avons établis par défaut sont entrés dans le tableau
 
 4.5. "RETOUR AU MENU PRINCIPAL"
 Permet de revenir au menu principal.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
