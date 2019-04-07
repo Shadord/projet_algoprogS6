@@ -1,14 +1,14 @@
 #ifndef PERSONNE_H
 #define PERSONNE_H
 
-#define BEGIN_CONTAMINATION_RATE 1 //Pourcentage de malade dans la grille/Graph de depart
-#define ILL_CONTAMINATION_RATE 0.10 // Proba qu'un malade transmette sa maladie
+#define BEGIN_CONTAMINATION_RATE 0.001 //Pourcentage de malade dans la grille/Graph de depart
+#define ILL_CONTAMINATION_RATE 0 // Proba qu'un malade transmette sa maladie
 #define ZOMBIE_CONTAMINATION_RATE 0.10 // Proba qu'un zombie morde qqun
-#define IMMUNISATION_RATE 0.10 // Proba d'etre immunisé en etant malade
-#define ZOMBIE_RATE 0.1 // Proba de devenir naturellement zombie en etant malade
-#define DEAD_RATE 0.02 // Proba qu'un malade meurt
-#define VACCINATION_RATE 0.1 // Proba qu'un individu sain se fasse immunisé : Immunisation marche + Qu'il ai l'argent etc...
-#define KILL_ZOMBIE_RATE 0.1 // Proba qu'un immunisé tue un zombie
+#define IMMUNISATION_RATE 0 // Proba d'etre immunisé en etant malade
+#define ZOMBIE_RATE 0.5 // Proba de devenir naturellement zombie en etant malade
+#define DEAD_RATE 0 // Proba qu'un malade meurt
+#define VACCINATION_RATE 0.5 // Proba qu'un individu sain se fasse immunisé : Immunisation marche + Qu'il ai l'argent etc...
+#define KILL_ZOMBIE_RATE 0.5 // Proba qu'un immunisé tue un zombie
 
 #include <stdio.h>
 #include <string.h>

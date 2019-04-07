@@ -5,7 +5,7 @@ myFile = open("save.txt", 'r')
 data = myFile.readlines()
 myFile.close()
 
-day = [] ; sain = []; malade = [] ; imm = []; dead = [] ;
+day = [] ; sain = []; malade = [] ; imm = []; dead = []; zombie = [] ;
 
 for i in range(0, len(data)):
     ligne = data[i]
@@ -19,6 +19,7 @@ for i in range(0, len(data)):
     malade.append(float(ligne_data[2]))
     imm.append(float(ligne_data[3]))
     dead.append(float(ligne_data[4]))
+    zombie.append(float(ligne_data[5]))
 
 
 Aday = np.asarray(day)
@@ -26,12 +27,14 @@ Asain = np.asarray(sain)
 Amalade = np.asarray(malade)
 Aimm = np.asarray(imm)
 Adead = np.asarray(dead)
+Azombie = np.asarray(zombie)
 
 plt.title("Resultats de la simulation")
 plt.plot(Aday, Asain, label = 'Saines', color = 'green')
 plt.plot(Aday, Amalade, label = 'Malades', color = 'red')
 plt.plot(Aday, Aimm, label = 'Immunisees', color = 'cyan')
 plt.plot(Aday, Adead, label = 'Mortes', color = 'black')
+plt.plot(Aday, Azombie, label = 'Zombie', color = 'pink')
 plt.xlabel('Temps en jours', fontsize = 15)
 plt.ylabel('Nombre de personnes', fontsize=15)
 plt.legend(loc=2, fontsize=12)

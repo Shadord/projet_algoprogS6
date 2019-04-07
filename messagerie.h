@@ -31,7 +31,7 @@ Message* depile(LetterBox* LB);
 void update(LetterBox *LB);
 
 // Cette fonction parcours le graph et établie tous les messages
-void set(Graph *G, LetterBox *LB);
+void set(Graph *G, LetterBox *LB, int jour_courant, int jour_vacc);
 
 /*
 Fonctions d'intéractions :

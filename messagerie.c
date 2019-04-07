@@ -43,7 +43,7 @@ void set(Graph *G, LetterBox *LB, int jour_courant, int jour_vacc) { // verifie 
 		{
 		Personne *P = G->liste_personnes[i];
 
-		if (P->etat==0 && jour_courant==jour_vacc) // si la personne est saine et que c'est le jour de campagne de vaccination
+		if (P->etat==0 && (jour_courant >= jour_vacc) && jour_vacc != -1) // si la personne est saine et que c'est le jour de campagne de vaccination
 			{
 			send_message(LB, send_Sain(P,P));
 			}
@@ -62,7 +62,7 @@ void set(Graph *G, LetterBox *LB, int jour_courant, int jour_vacc) { // verifie 
 			Successeur *S = G->liste_successeurs[i];
 			while (S!=NULL) // on envoie un message à tous les voisins
 				{
-				send_message(LB, send_Immunise(P, S));
+				send_message(LB, send_Immunise(P, S->personne));
 				S=S->successeur;
 				}
 			}
@@ -71,7 +71,7 @@ void set(Graph *G, LetterBox *LB, int jour_courant, int jour_vacc) { // verifie 
 			Successeur *S = G->liste_successeurs[i];
 			while (S!=NULL) // on envoie un message à tous les voisins
 				{
-				send_message(LB, send_Zombie(P, S));
+				send_message(LB, send_Zombie(P, S->personne));
 				S=S->successeur;
 				}
 			}
@@ -111,6 +111,7 @@ Message* send_Malade(Personne* A, Personne *B) { // Si un malade envoit un messa
 		M->etat = futur_etat;
 		return M;
 	}
+	return NULL;
 }
 
 Message* send_Zombie(Personne* A, Personne* B) {
@@ -135,6 +136,7 @@ Message* send_Zombie(Personne* A, Personne* B) {
 		M->etat = futur_etat;
 		return M;
 	}
+	return NULL;
 }
 
 Message* send_Sain(Personne *A, Personne *B) { // un individu sain peut se faire vacciner lors de la campagne le jour j
@@ -143,28 +145,32 @@ Message* send_Sain(Personne *A, Personne *B) { // un individu sain peut se faire
 		if(randomize_state(VACCINATION_RATE)) { // B ou A car c'est pareil, probabilité que le vaccin fonctionne et que l'individu devienne immunisé
 			futur_etat=2;
 		}
+	}
 	if (futur_etat!=-1)
 		{
 		Message* M = malloc(sizeof(Message));
 			M->destinataire = B;
 			M->emetteur = A;
 			M->etat = futur_etat;
+			return M;
 		}
-	}
+	return NULL;
 }
 
 Message* send_Immunise(Personne *A, Personne *B) { // Un immunisé peut tuer un zombie ou devenir zombie
 	int futur_etat = -1;
 	if(A != B) { //
-		if(randomize_state(KILL_ZOMBIE_RATE)) { // B ou A car c'est pareil, probabilité que le vaccin fonctionne et que l'individu devienne immunisé
+		if(randomize_state(KILL_ZOMBIE_RATE) && B->etat == 4) { // B ou A car c'est pareil, probabilité que le vaccin fonctionne et que l'individu devienne immunisé
 			futur_etat=3;
 		}
+	}
 	if (futur_etat != -1)
 		{
 		Message* M = malloc(sizeof(Message));
 			M->destinataire = B;
 			M->emetteur = A;
 			M->etat = futur_etat;
+			return M;
 		}
-	}
+	return NULL;
 }

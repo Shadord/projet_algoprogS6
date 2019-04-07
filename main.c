@@ -33,7 +33,7 @@ void main(int argc, char const *argv[]) {
 }
 
 void compteur(FILE* fp, Graph *G, int day) {
-  int sain = 0, malade = 0, imm = 0, dead = 0;
+  int sain = 0, malade = 0, imm = 0, dead = 0, zombie = 0;
   Personne* P;
   for(int i = 0; i<G->nb_personnes; i++) {
     P = G->liste_personnes[i];
@@ -50,9 +50,13 @@ void compteur(FILE* fp, Graph *G, int day) {
       case 3:
         dead++;
         break;
+      case 4:
+        zombie++;
+        break;
+
     }
   }
-  fprintf(fp, "%d;%d;%d;%d;%d\n", day , sain, malade, imm, dead);
+  fprintf(fp, "%d;%d;%d;%d;%d;%d\n", day , sain, malade, imm, dead, zombie);
 }
 
 
@@ -80,9 +84,12 @@ int menu() {
 void simulation(Graph *G, LetterBox *LB, int size)
 	{
 	int temps;
+  int vaccination_day;
   FILE* fp = fopen("save.txt", "w");
 	printf("Entrez le nombre de jours de la simulation : \n");
 	scanf("%d", &temps);
+  printf("Entrez le jour de debut vaccination (-1 => aucun vaccin) : \n");
+	scanf("%d", &vaccination_day);
 
 	printf("Jour 0 - Situation de départ : \n");
 	printGrid2(G, size);
@@ -90,7 +97,7 @@ void simulation(Graph *G, LetterBox *LB, int size)
 	for (int i=0; i<temps; i++)
 		{
 		printf("Jour %d : \n", i+1);
-		set(G,LB);
+		set(G,LB, i, vaccination_day);
 		update(LB);
 		printGrid2(G, size);
     compteur(fp, G, i+1);
