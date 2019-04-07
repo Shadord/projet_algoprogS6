@@ -21,7 +21,7 @@ void main(int argc, char const *argv[]) {
       printGrid2(&G, size);
     }else if(reponse == 3){
       if(G.nb_personnes != -1){
-        simulation(&G, &LB,size);
+        simulation(&G, &LB, size);
         system("python graph.py");
       }
     }

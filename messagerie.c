@@ -1,40 +1,10 @@
 #include "messagerie.h"
 
 
-void send_message(LetterBox *LB, Personne *A, Personne *B) {
-	int futur_etat;
-	Message* M = malloc(sizeof(Message));
-	if(A == B) { // Si A n'est pas B alors on check juste la transmission et on envois le message que si l'autre doit etre malade
-		if(randomize_state(IMMUNISATION_RATE)) { // B ou A car c'est pareil est immunisé
-			M->destinataire = B;
-			M->emetteur = A;
-			M->etat = 2;
-			empile(LB, M);
-			return;
-			//
-		}else{
-			if(randomize_state(DEAD_RATE)) { // On check si il va mourrir ?
-				M->destinataire = B;
-				M->emetteur = A;
-				M->etat = 3;
-				empile(LB, M);
-				return;
-				//
-			}
-		}
-	}else{ // Si A != B on regarde les proba transmettre la maladie a condition que B ne soit pas mort ou immunisé ou malade
-		if(B->etat == 0) { // B Mort avec proba 0.10
-			if(randomize_state(CONTAMINATION_RATE)) {
-				M->destinataire = B;
-				M->emetteur = A;
-				M->etat = 1;
-				empile(LB, M);
-				return;
-				//
-			}
-		}
+void send_message(LetterBox *LB, Message* M) {
+	if(M != NULL) {
+		empile(LB, M);
 	}
-
 }
 
 
@@ -72,6 +42,7 @@ void set(Graph *G, LetterBox *LB) { // verifie l'état des personnes et envoie u
 	for (int i=0; i< G->nb_personnes; i++)
 		{
 		Personne *P = G->liste_personnes[i];
+
 		if (P->etat == 1)
 			{
 			send_message(LB, P, P); // envoie un message à lui-même
@@ -84,3 +55,62 @@ void set(Graph *G, LetterBox *LB) { // verifie l'état des personnes et envoie u
 			}
 		}
 	}
+
+Message* send_Malade(Personne* A, Personne *B) { // Si un malade envoit un message
+
+	int futur_etat = -1;
+	if(A == B) { // Si A  est B alors il s'envoit un msg a lui même. Il peut :
+		if(randomize_state(IMMUNISATION_RATE)) { // En premier être immunisé (etat prioritaire)
+			futur_etat = 2;
+			//
+		}else{
+			if(randomize_state(DEAD_RATE)) { // En second mourrir
+				futur_etat = 3;
+				//
+			}else{
+				if(randomize_state(ZOMBIE_RATE)) { // En dernier devenir un Zombie
+					futur_etat = 4;
+					//
+				}
+			}
+		}
+	}else{ // Si A != B on regarde les proba transmettre la maladie a condition que B ne soit pas mort ou immunisé ou malade
+		if(B->etat == 0) { // B Mort avec proba 0.10
+			if(randomize_state(ILL_CONTAMINATION_RATE)) {
+				futur_etat = 1;
+				//
+			}
+		}
+	}
+	if(futur_etat != -1) {
+		Message* M = malloc(sizeof(Message));
+		M->destinataire = B;
+		M->emetteur = A;
+		M->etat = futur_etat;
+		return M;
+	}
+}
+
+Message* send_Zombie(Personne* A, Personne* B) {
+	int futur_etat = -1;
+	if(A == B) { // Si A  est B alors il s'envoit un msg a lui même. Il peut : rien faire... il reste zombie
+
+	}else{ // Si A != B on regarde ce qu'il peut transmettre a B
+		if(randomize_state(ZOMBIE_CONTAMINATION_RATE)) {
+			if(B->etat == 0 || B->etat == 1) { // Si B est sain ou malade, il peut se faire mordre et devenir zombie
+				futur_etat = 4;
+				//
+			}else if(B->etat == 2){ // Si B est immunisé et que un zombie le mord, il meurt (parce que les zombies savent qu'il est immunisé)
+				futur_etat = 3;
+				//
+			}
+		}
+	}
+	if(futur_etat != -1) {
+		Message* M = malloc(sizeof(Message));
+		M->destinataire = B;
+		M->emetteur = A;
+		M->etat = futur_etat;
+		return M;
+	}
+}

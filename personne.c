@@ -36,7 +36,7 @@ void create_graph(Graph* G, const char* grapheFileName)
 			}
 			if(G->liste_personnes[id_personne] == NULL) { // On verifie si la personne existe
 				P->id = id_personne;
-				P->etat = 1;
+				P->etat = randomize_state(BEGIN_CONTAMINATION_RATE);
 				G->liste_personnes[id_personne] = P;
 			}else{
 				P = G->liste_personnes[id_personne];
@@ -127,7 +127,7 @@ void generateGrid(Graph *G, int size) {
 				S2->personne = G->liste_personnes[i+size];
 				S2->successeur = S1;
 				G->liste_successeurs[i] = S2;
-			}else if(i == G->nb_personnes) { // Si il est en bas BAS DROIT
+			}else if(i == G->nb_personnes-1) { // Si il est en bas BAS DROIT
 				S1 = malloc(sizeof(Successeur));
 				S1->personne = G->liste_personnes[i-1];
 				S1->successeur = NULL;
@@ -190,38 +190,6 @@ void generateGrid(Graph *G, int size) {
 	}
 }
 
-void printGrid(Graph *G, int size) {
-		for(int j = 0; j<G->nb_personnes; j++) {
-			if(j%size == 0){
-				printf("\n");
-			}
-			if(j<10){
-				if(G->liste_personnes[j]->etat == 0) {
-					printf("\033[32m0%d ", j);
-				}else if(G->liste_personnes[j]->etat == 1){
-					printf("\033[31m0%d ", j);
-				}else if(G->liste_personnes[j]->etat == 2){
-					printf("\033[36m0%d ", j);
-				}else if(G->liste_personnes[j]->etat == 3){
-					printf("\033[33m0%d ", j);
-				}
-			}else{
-				if(G->liste_personnes[j]->etat == 0) {
-					printf("\033[32m%d ", j);
-				}else if(G->liste_personnes[j]->etat == 1){
-					printf("\033[31m%d ", j);
-				}else if(G->liste_personnes[j]->etat == 2){
-					printf("\033[36m%d ", j);
-				}else if(G->liste_personnes[j]->etat == 3){
-					printf("\033[33m%d ", j);
-				}
-			}
-
-
-		}
-		printf("\033[0m\n");
-}
-
 void printGrid2(Graph *G, int size) {
 		for(int j = 0; j<G->nb_personnes; j++) {
 			if(j%size == 0){
@@ -235,6 +203,8 @@ void printGrid2(Graph *G, int size) {
 				printf("\033[36mI ");
 			}else if(G->liste_personnes[j]->etat == 3){
 				printf("\033[33mX ");
+			}else if(G->liste_personnes[j]->etat == 4){
+				printf("\033[35mZ ");
 			}
 
 
