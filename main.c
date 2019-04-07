@@ -110,7 +110,7 @@ int menu() {
 void simulation(Graph *G, LetterBox *LB, int size, float parametres[]) {
 	int temps;
   int vaccination_day;
-  FILE* fp = fopen("resulats_simulation.txt", "w");
+  FILE* fp = fopen("resultats_simulation.txt", "w");
 	printf(" \033[0mEntrez le nombre de jours de la simulation : \n");
 	scanf("%d", &temps);
   if(parametres[6] != 0) {
@@ -121,7 +121,7 @@ void simulation(Graph *G, LetterBox *LB, int size, float parametres[]) {
   }
 
 	printf("Jour 0 - Situation de départ : \n");
-  if(G->type = 0) {
+  if(G->type = 1) {
     printGrid2(G, size);
   }else{
     print_graph(G);
@@ -132,7 +132,7 @@ void simulation(Graph *G, LetterBox *LB, int size, float parametres[]) {
 		printf("Jour %d : \n", i+1);
 		set(G,LB, i, vaccination_day, parametres);
 		update(LB);
-    if(G->type = 0) {
+    if(G->type = 1) {
       printGrid2(G, size);
     }else{
       print_graph(G);
@@ -263,7 +263,7 @@ int loadParam(float p[]) {
 }
 
 int reinitialiserParam(float parametres[]) {
-  float param[] = {0.12, 0.32, 0.4, 0.22, 0.20, 0.33, 0.21, 0.22};
+  float param[] = {0.10, 0.20, 0.08, 0.15, 0.23, 0.07, 0.30, 0.40};
   for(int i = 0; i == 7; i++) {
     parametres[i] = param[i];
   }

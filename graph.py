@@ -29,6 +29,7 @@ Aimm = np.asarray(imm)
 Adead = np.asarray(dead)
 Azombie = np.asarray(zombie)
 
+plt.figure("Resultats de la simulation (Quittez pour revenir au programme)")
 plt.title("Resultats de la simulation")
 plt.plot(Aday, Asain, label = 'Saines', color = 'green')
 plt.plot(Aday, Amalade, label = 'Malades', color = 'red')
