@@ -1,9 +1,8 @@
-Parametres de la SIMULATION
-0.14 //Probabilite de contamination initiale
-0.33 // Proba qu'un malade transmette sa maladie
-0.10 // Proba qu'un zombie morde qqun
-0.35 // Proba d'etre immunisé en etant malade
-0.50 // Proba de devenir naturellement zombie en etant malade
-0.77 // Proba qu'un malade meurt
-0.50 // Proba qu'un individu sain se fasse immunisé : Immunisation marche + Qu'il ai l'argent etc...
-0.53 // Proba qu'un immunisé tue un zombie
+0.30 BEGIN_CONTAMINATION_RATE
+0.20 ILL_CONTAMINATION_RATE
+0.00 ZOMBIE_RATE
+0.10 IMMUNISATION_RATE
+0.00 ZOMBIE_CONTAMINATION_RATE
+0.10 DEAD_RATE
+0.24 VACCINATION_RATE
+0.00 KILL_ZOMBIE_RATE

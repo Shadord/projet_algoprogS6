@@ -4,9 +4,11 @@
 void main(int argc, char const *argv[]) {
 
   /// Chargement des parametres
-  float parametre[8];
+  float parametres[8];
   if(loadParam(parametres) != 1) {
     printf("Erreur lors du chargement des parametres\n");
+  }else{
+    printf("Succes du chargement des parametres\n");
   }
 
   /// Creation du graphe
@@ -25,21 +27,21 @@ void main(int argc, char const *argv[]) {
   while(1){ // Bouche sans fin
     reponse = menu(); // On recupere la valeur entrée par l'utilisateur
     if(reponse == 1) {
-      create_graph(&G, filename); // Creation d'un graph normal grace au fichier et affichage
+      create_graph(&G, filename, parametres); // Creation d'un graph normal grace au fichier et affichage
       print_graph(&G);
     }else if(reponse == 2) { // Creation d'un graph grille avec demande de taille et affichage
       size = graphSize();
-      generateGrid(&G, size);
+      generateGrid(&G, size, parametres);
       printGrid2(&G, size);
     }else if(reponse == 4){ // Simulation si le graph est crée
       if(G.nb_personnes != -1){
-        simulation(&G, &LB, size);
+        simulation(&G, &LB, size, parametres);
         system("python graph.py");
       }else{
         printf("  Erreur, votre Graph est vide.\n");
       }
     }else if(reponse == 3) { // On rentre dans le menu des parametres
-      parametreMenu();
+      parametreMenu(parametres);
     }else if(reponse == 5) { // On quitte le programme
       return;
     }
@@ -50,6 +52,7 @@ void main(int argc, char const *argv[]) {
 
 void compteur(FILE* fp, Graph *G, int day) {
   int sain = 0, malade = 0, imm = 0, dead = 0, zombie = 0;
+  //float average_ill;
   Personne* P;
   for(int i = 0; i<G->nb_personnes; i++) {
     P = G->liste_personnes[i];
@@ -59,6 +62,7 @@ void compteur(FILE* fp, Graph *G, int day) {
         break;
       case 1:
         malade++;
+        //average_ill += G->liste_personnes[i]->jour_malade;
         break;
       case 2:
         imm++;
@@ -72,6 +76,8 @@ void compteur(FILE* fp, Graph *G, int day) {
 
     }
   }
+  //average_ill=average_ill/malade;
+  //printf("Durée moyenne de la maladie : %f\n", average_ill);
   fprintf(fp, "%d;%d;%d;%d;%d;%d\n", day , sain, malade, imm, dead, zombie);
 }
 
@@ -90,8 +96,8 @@ int menu() {
   printf("===============================================================\n");
   printf("==>   MENU PRINCIPAL DE LA SIMULATION\n");
   printf("===============================================================\n\n");
-  printf("1. INITIER LES DONNEES DEPUIS TEXTE\n");
-  printf("2. INITIER LES DONNEES GRID\n");
+  printf("1. GENERERATION D'UN GRAPHE DEPUIS UN FICHIER TEXTE\n");
+  printf("2. GENERATION D'UN GRAPHE GRILLE\n");
   printf("3. MODIFIER LES PARAMETRES DE SIMULATION\n");
   printf("4. LANCER LA SIMULATION\n");
   printf("5. QUITTER LE PROGRAMME\n");
@@ -124,9 +130,10 @@ void simulation(Graph *G, LetterBox *LB, int size, float parametres[]) {
 void parametreMenu(float parametres[]) {
   int reponse;
   int flag = 1;
-  int etat_zombie = parametres[2] != 0 && parametres[4] != 0;
+  int etat_zombie = (parametres[2] != 0) && (parametres[4] != 0);
+  printf("%.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f\n",parametres[0], parametres[1], parametres[2], parametres[3],parametres[4],parametres[5], parametres[6],parametres[7]);
   int etat_vaccination = parametres[6] != 0;
-  char etat[4] = {"DESACTIVER", "ACTIVER", "DESACTIVE", "ACTIVE"};
+  char* etat[4] = {"ACTIVER", "DESACTIVER", "ACTIVE", "DESACTIVE"};
   while(flag) {
     printf("    ===============================================================\n");
     printf("    ==>   MENU PARAMETRES DE LA SIMULATION\n");
@@ -139,28 +146,49 @@ void parametreMenu(float parametres[]) {
     scanf("%d", &reponse);
     switch (reponse) {
       case 1:
-        system("nano parametre.txt");
+        system("nano parametres.txt");
         break;
       case 2:
-        parametres[2] = 0.30;
-        parametres[4] = 0.23;
-        if(updateParam(parametres)) {
-          printf("    Le mode zombie a été %s avec les valeurs de probabilité suivantes : \n", etat[2 + etat_zombie]);
-          printf("        - Probabilité qu'un zombie morde une personne : 0.30\n");
-          printf("        - Probabilité qu'un malade devienne un zombie : 0.23\n");
-          etat_zombie == 1 - etat_zombie;
+        if(etat_zombie == 0) {
+          parametres[2] = 0.30;
+          parametres[4] = 0.23;
+          if(updateParam(parametres)) {
+            printf("    Le mode zombie a été %s avec les valeurs de probabilité suivantes : \n", etat[2 + etat_zombie]);
+            printf("        - Probabilité qu'un zombie morde une personne : 0.30\n");
+            printf("        - Probabilité qu'un malade devienne un zombie : 0.23\n");
+            etat_zombie == 1 - etat_zombie;
+          }else{
+            printf("    Erreur lors de la sauvegarde des parametres.\n");
+          }
         }else{
-          printf("    Erreur lors de la sauvegarde des parametres.\n");
+          parametres[2] = 0.00;
+          parametres[4] = 0.00;
+          if(updateParam(parametres)) {
+            printf("    Le mode zombie a été %s\n", etat[2 + etat_zombie]);
+            etat_zombie == 1 - etat_zombie;
+          }else{
+            printf("    Erreur lors de la sauvegarde des parametres.\n");
+          }
         }
         break;
       case 3:
-        parametre[6] = 0.24;
-        if(updateParam(parametres)) {
-          printf("    Le mode vaccination a été %s avec la valeur de probabilité suivante : \n", etat[2 + etat_vaccination]);
-          printf("        - Probabilité qu'un sain aille se faire vacciner : 0.24\n");
-          etat_vaccination == 1 - etat_vaccination;
+        if(etat_vaccination == 0) {
+          parametres[6] = 0.24;
+          if(updateParam(parametres)) {
+            printf("    Le mode vaccination a été %s avec la valeur de probabilité suivante : \n", etat[2 + etat_vaccination]);
+            printf("        - Probabilité qu'un sain aille se faire vacciner : 0.24\n");
+            etat_vaccination == 1 - etat_vaccination;
+          }else{
+            printf("    Erreur lors de la sauvegarde des parametres.\n");
+          }
         }else{
-          printf("    Erreur lors de la sauvegarde des parametres.\n");
+          parametres[6] = 0.00;
+          if(updateParam(parametres)) {
+            printf("    Le mode zombie a été %s\n", etat[2 + etat_zombie]);
+            etat_vaccination == 1 - etat_vaccination;
+          }else{
+            printf("    Erreur lors de la sauvegarde des parametres.\n");
+          }
         }
         break;
       case 4:
@@ -183,16 +211,14 @@ void parametreMenu(float parametres[]) {
 int updateParam(float p[]) {
   FILE* fp = fopen("parametres.txt", "w");
   if(fp != NULL) {
-    fprintf("Parametres de la SIMULATION\n
-    %.2f //Probabilite de contamination initiale
-    %.2f // Proba qu'un malade transmette sa maladie
-    %.2f // Proba qu'un zombie morde qqun
-    %.2f // Proba d'etre immunisé en etant malade
-    %.2f // Proba de devenir naturellement zombie en etant malade
-    %.2f // Proba qu'un malade meurt
-    %.2f // Proba qu'un individu sain se fasse immunisé : Immunisation marche + Qu'il ai l'argent etc...
-    %.2f // Proba qu'un immunisé tue un zombie
-    "; p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7]});
+    fprintf(fp, "%.2f BEGIN_CONTAMINATION_RATE\n", p[0]);
+    fprintf(fp, "%.2f ILL_CONTAMINATION_RATE\n",p[1]);
+    fprintf(fp, "%.2f ZOMBIE_RATE\n", p[2]);
+    fprintf(fp, "%.2f IMMUNISATION_RATE\n", p[3]);
+    fprintf(fp, "%.2f ZOMBIE_CONTAMINATION_RATE\n", p[4]);
+    fprintf(fp, "%.2f DEAD_RATE\n", p[5]);
+    fprintf(fp, "%.2f VACCINATION_RATE\n", p[6]);
+    fprintf(fp, "%.2f KILL_ZOMBIE_RATE\n", p[7]);
     fclose(fp);
     return 1;
   }else{
@@ -202,14 +228,16 @@ int updateParam(float p[]) {
 
 int loadParam(float p[]) {
   FILE *fp;
-	fp = open(grapheFileName, "r");
+	fp = fopen("parametres.txt", "r");
   if(fp != NULL){
     float param;
     char autre[100];
-    for(int i = 0; i == 7; i++) {
-      fscanf("%f;%[^\n]s", param, autre);
+    int i = 0;
+    while(fscanf(fp, "%f%s",&param, autre) == 2){
       p[i] = param;
+      i++;
     }
+    fclose(fp);
     return 1;
   }else{
     return 0;
@@ -218,6 +246,10 @@ int loadParam(float p[]) {
 
 }
 
-int reinitialiserParam(float paramtres[]) {
-  return updateParam({0.12, 0.32, 0.4, 0.22, 0.20, 0.33, 0.21, 0.22});
+int reinitialiserParam(float parametres[]) {
+  float param[] = {0.12, 0.32, 0.4, 0.22, 0.20, 0.33, 0.21, 0.22};
+  for(int i = 0; i == 7; i++) {
+    parametres[i] = param[i];
+  }
+  return updateParam(parametres);
 }
