@@ -29,7 +29,7 @@ void create_graph(Graph* G, const char* grapheFileName)
 
 			if(G->liste_personnes[id_successeur] == NULL) { // Si le successeur existe pas (la personne en elle meme n'est pas crée)
 				successeur->id = id_successeur; // On cree son id de successeur
-				successeur->etat = 1; // On cree son état
+				successeur->etat = randomize_state(BEGIN_CONTAMINATION_RATE); // On cree son état
 				G->liste_personnes[id_successeur] = successeur; // On le met dans la liste des personnes référencés
 			}else{
 				successeur = G->liste_personnes[id_successeur]; // Sinon on le recupere			}

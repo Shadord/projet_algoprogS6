@@ -19,8 +19,8 @@
 
 typedef struct
 {
-	int		id;
-	int		etat;
+	int	id;
+	int	etat;
 } Personne;
 
 typedef struct _Successeur
